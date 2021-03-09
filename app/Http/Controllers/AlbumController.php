@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Album;
+use App\Models\Photo;
 use Illuminate\Http\Request;
 
 class AlbumController extends Controller
@@ -35,7 +36,25 @@ class AlbumController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validation = $request->validate([
+            "url" => "required|min:1",
+            "nom" => "required|min:2|max:98",
+            "auteur" => "required|min:2|max:78",
+
+        ]);
+
+
+        $storephoto = new Photo;
+        $storephoto->url = $request->url;
+        $storephoto->save();
+
+        $store = new Album;
+        $store->nom = $request->nom;
+        $store->auteur = $request->auteur;
+        $store->photo_id = $store->id;
+        $store->save();
+
+        return redirect()->back();
     }
 
     /**
