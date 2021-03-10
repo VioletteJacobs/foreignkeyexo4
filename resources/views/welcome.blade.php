@@ -13,14 +13,14 @@
         </div>
     @endif
 
-    <form action="/albums" method="POST">
+    <form action="/albums" method="POST" enctype="multipart/form-data">
         @csrf
         <label for="">Auteur: </label>
         <input type="text" name="auteur">
         <label for="">Nom: </label>
         <input type="text" name="nom">
         <label for="">Photo : </label>
-        <input type="file" name="photo_id">
+        <input type="file" name="url">
         <button type="submit" class="btn btn-primary">Ajouter</button>
     </form>
 
@@ -44,7 +44,7 @@
             <td>{{$item->nom}}</td>
             <td>{{$item->auteur}}</td>
             <td>
-                <img src="{{asset('$item->photos->photo')}}" alt="">
+                <img src="{{asset("storage/img/".$item->photos->url)}}" style= "height :100px" alt="">
             </td>
           </tr>
         </tbody>

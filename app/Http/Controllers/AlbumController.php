@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Album;
 use App\Models\Photo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AlbumController extends Controller
 {
@@ -45,13 +46,14 @@ class AlbumController extends Controller
 
 
         $storephoto = new Photo;
-        $storephoto->url = $request->url;
+        $storephoto->url = $request->file("url")->hashName();
+        Storage::put("public/img/",$request->file("url"));
         $storephoto->save();
 
         $store = new Album;
         $store->nom = $request->nom;
         $store->auteur = $request->auteur;
-        $store->photo_id = $store->id;
+        $store->photo_id = $storephoto->id;
         $store->save();
 
         return redirect()->back();
